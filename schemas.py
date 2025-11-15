@@ -12,7 +12,8 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
 # Example schemas (replace with your own):
 
@@ -40,6 +41,20 @@ class Product(BaseModel):
 
 # Add your own schemas here:
 # --------------------------------------------------
+
+class Article(BaseModel):
+    """
+    News articles collection schema
+    Collection name: "article"
+    """
+    title: str = Field(..., description="Article title")
+    summary: Optional[str] = Field(None, description="Short summary of the article")
+    content: str = Field(..., description="Full content of the article")
+    author: str = Field(..., description="Author name")
+    category: str = Field(..., description="News category, e.g., Nasional, Olahraga, Teknologi")
+    image_url: Optional[str] = Field(None, description="Cover image URL")
+    published_at: datetime = Field(default_factory=datetime.utcnow, description="Publish time")
+    tags: Optional[List[str]] = Field(default_factory=list, description="Keyword tags")
 
 # Note: The Flames database viewer will automatically:
 # 1. Read these schemas from GET /schema endpoint
